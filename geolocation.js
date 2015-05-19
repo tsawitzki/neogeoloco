@@ -6,6 +6,9 @@ if ("geolocation" in navigator) {
   console.log("browser geolocation API is NOT available");
 }
 
+
+
+
 // passiert wenn der button geclickt wird:
 function geoFindMe() {
   // hol dir das element mit der ID "out" und speicher es in der variable "output" als container fürs ergebnis
@@ -19,17 +22,34 @@ function geoFindMe() {
   function success(position) {
     var latitude  = position.coords.latitude;
     var longitude = position.coords.longitude;
-    var timestamp = position.timestamp;
+    var timestampunix = position.timestamp;
 
-    console.log(latitude);
-    console.log(longitude);
-    console.log(timestamp);
+    console.log("Latitude: " + latitude);
+    console.log("Longitude: " + longitude);
+    console.log("UNIX Time acc. to Geolocation: " + timestampunix);
 
+
+    // get local time to differ between nighttime or daytime for choice of music
+    var localtime = new Date();
+    var hourofday = localtime.getHours();
+    console.log("Hour of day: " + hourofday);
+    // define wether it’s daytime or nighttime
+    if (hourofday <= 22 && hourofday >= 8) {
+      console.log("It’s Daytime");
+    } else {
+      console.log("It’s Nighttime");
+    }
+
+
+
+    // render coordinates as text
     output.innerHTML = '<p>Latitude is ' + latitude + ' <br>Longitude is ' + longitude + '</p>';
 
     // var img = new Image();
     // img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=13&size=300x300&sensor=false";
     // output.appendChild(img);
+
+
   };
 
   function error() {
@@ -39,4 +59,5 @@ function geoFindMe() {
   output.innerHTML = "<p>Locating…</p>";
 
   navigator.geolocation.getCurrentPosition(success, error);
+
 }
