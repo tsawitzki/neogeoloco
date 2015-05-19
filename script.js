@@ -1,6 +1,5 @@
 // HOWLER TEST
 
-/* 
 // Stems setup
 var stem1 = new Howl({
   urls: ['./sound/stem_ahh.wav'],
@@ -65,4 +64,3 @@ $('#stem2play').on('click', function(){
 $('#stem3play').on('click', function(){
     stem3.play();
 });
-*/

@@ -59,17 +59,29 @@ function geoFindMe() {
       console.log("I have no clue what daytime it is.");
     };
     // check content of "daytime" variable:
-    console.log(daytime);
+    console.log("Variable 'daytime' has: " + daytime);
     
+    // now that daytime and lat/lon are available, create a stem combination and filenames:
+    console.log("Creating a stem combination now ...");
+    if (daytime === "night") {
+      var rtm = "rtm60_"+Math.round(longitude)+".wav"
+      var mld = "mld60_"+Math.round(latitude)+".wav"
+    } else if (daytime === "morning") {
+      var rtm = "rtm120_"+Math.round(longitude)+".wav"
+      var mld = "mld60_"+Math.round(latitude)+".wav"
+    } else if (daytime === "afternoon") {
+      var rtm = "rtm120_"+Math.round(longitude)+".wav"
+      var mld = "mld120_"+Math.round(latitude)+".wav"
+    } else if (daytime === "evening") {
+      var rtm = "rtm120_"+Math.round(longitude)+".wav"
+      var mld = "mld120_"+Math.round(latitude)+".wav"
+    } else {
+      console.log("Error creating filename!");
+    }
 
     // render coordinates as text into "output":
     output.innerHTML = '<p>Latitude is ' + latitude + ' <br>Longitude is ' + longitude + '</p>';
     
-    // generate a daytime dependent stem constellation:
-    if (daytime === "day") {
-      console.log("It’s daytime, so I‘ll ...");
-    }
-
   };
 
   // mandatory error function
