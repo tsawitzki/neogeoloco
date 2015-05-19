@@ -8,9 +8,9 @@ if ("geolocation" in navigator) {
 
 
 
-
 // call this function to start:
 function geoFindMe() {
+  
   // get element with ID "out" and save it as variable "output" to have an element to render text-output into frontend
   var output = document.getElementById("out");
 
@@ -28,34 +28,61 @@ function geoFindMe() {
     console.log("Longitude: " + longitude);
     console.log("UNIX Time acc. to Geolocation: " + timestampunix);
 
-    // get local time to differ between nighttime or daytime for choice of music
+    // fetch local time to differ between nighttime or daytime for choice of music:
     var localtime = new Date();
     var hourofday = localtime.getHours();
+    var minuteofhour = localtime.getMinutes();
+    // compile hours+minutes to timestamp:
+    var timetxt = hourofday + "." + minuteofhour;
+    // convert timestamp to integer:
+    var time = Number(timetxt);
+    var daytime = "not yet defined";
     console.log("Hour of day: " + hourofday);
-    // define wether it’s daytime or nighttime
-    if (hourofday <= 22 && hourofday >= 8) {
-      var daytime = "day";
-      console.log("=> It’s Daytime");
-    } else {
-      var daytime = "night";
+    console.log("Minute of hour: " + minuteofhour);
+    console.log("=> Time as String: " + timetxt);
+    console.log("=> Time as Integer: " + time);
+    
+    // define wether it’s daytime or nighttime and save in variable:
+    if (time >= 0.00 && time <= 5.59) {
+      daytime = "night";
       console.log("=> It’s Nighttime");
-    }
+    } else if (time >= 6.00 && time <= 11.59) {
+      daytime = "morning";
+      console.log("=> It’s Morning");
+    } else if (time >= 12.00 && time <= 17.59) {
+      daytime = "afternoon";
+      console.log("=> It’s Afternoon");
+    } else if (time >= 18.00 && time <= 23.59) {
+      daytime = "evening";
+      console.log("=> It’s Evening");
+    } else {
+      console.log("I have no clue what daytime it is.");
+    };
+    // check content of "daytime" variable:
+    console.log(daytime);
+    
 
-    // render coordinates as text
+    // render coordinates as text into "output":
     output.innerHTML = '<p>Latitude is ' + latitude + ' <br>Longitude is ' + longitude + '</p>';
-
-    // var img = new Image();
-    // img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=13&size=300x300&sensor=false";
-    // output.appendChild(img);
+    
+    // generate a daytime dependent stem constellation:
+    if (daytime === "day") {
+      console.log("It’s daytime, so I‘ll ...");
+    }
 
   };
 
+  // mandatory error function
   function error() {
     output.innerHTML = "Unable to retrieve your location";
   };
-
+  
+  // while loading phase, animation here later:
   output.innerHTML = "<p>Locating…</p>";
 
+  // the actual API call:
   navigator.geolocation.getCurrentPosition(success, error);
 
 }
+
+geoFindMe();
