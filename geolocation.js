@@ -67,7 +67,7 @@ function geoFindMe() {
     };
     console.log("=> It’s " + daytime + ", so loading these according to Lon/Lat now: " + stem_rtm + " + " + stem_mld);
 
-    // creat new Howl.js objects for generated filenames
+    // creat new Howl.js objects for generated filenames and play them:
     var rtm = new Howl({
       urls: ["sound/"+stem_rtm],
       autoplay: false,
