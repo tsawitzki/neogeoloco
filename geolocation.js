@@ -42,42 +42,61 @@ function geoFindMe() {
     console.log("=> Time as String: " + timetxt);
     console.log("=> Time as Integer: " + time);
     
-    // define wether it’s daytime or nighttime and save in variable:
+    // define wether it’s daytime or nighttime and create a stem combination and filenames accordingly:
+    console.log("OK: Creating a stem combination according to time and Lon/Lat now ...");
+    var stem_rtm = String();
+    var stem_mld = String();
     if (time >= 0.00 && time <= 5.59) {
       daytime = "night";
-      console.log("=> It’s Nighttime");
+      stem_rtm = "rtm60_"+Math.round(longitude)+".wav";
+      stem_mld = "mld60_"+Math.round(latitude)+".wav";
     } else if (time >= 6.00 && time <= 11.59) {
       daytime = "morning";
-      console.log("=> It’s Morning");
+      stem_rtm = "rtm120_"+Math.round(longitude)+".wav";
+      stem_mld = "mld60_"+Math.round(latitude)+".wav";
     } else if (time >= 12.00 && time <= 17.59) {
       daytime = "afternoon";
-      console.log("=> It’s Afternoon");
+      stem_rtm = "rtm120_"+Math.round(longitude)+".wav";
+      stem_mld = "mld120_"+Math.round(latitude)+".wav";
     } else if (time >= 18.00 && time <= 23.59) {
       daytime = "evening";
-      console.log("=> It’s Evening");
+      stem_rtm = "rtm60_"+Math.round(longitude)+".wav";
+      stem_mld = "mld120_"+Math.round(latitude)+".wav";
     } else {
-      console.log("I have no clue what daytime it is.");
+      console.log("WARNING: Error defining daytime and creating filename!");
     };
-    // check content of "daytime" variable:
-    console.log("Variable 'daytime' has: " + daytime);
+    console.log("=> It’s " + daytime + ", so loading these according to Lon/Lat now: " + stem_rtm + " + " + stem_mld);
+
+    // creat new Howl.js objects for generated filenames
+    var rtm = new Howl({
+      urls: ["sound/"+stem_rtm],
+      autoplay: false,
+      loop: true,
+      volume: 1.0,
+      onend: function() {
+        // 
+      },
+      onload: function () {
+        console.log("OK: Rhythm stem loaded");
+        rtm.play();
+      }
+    });
+    var mld = new Howl({
+      urls: ["sound/"+stem_mld],
+      autoplay: false,
+      loop: true,
+      volume: 1.0,
+      onend: function() {
+        // 
+      },
+      onload: function () {
+        console.log("OK: Melody stem loaded");
+        // play dem mofos, selecta:
+        mld.play();
+      }
+    });
     
-    // now that daytime and lat/lon are available, create a stem combination and filenames:
-    console.log("Creating a stem combination now ...");
-    if (daytime === "night") {
-      var rtm = "rtm60_"+Math.round(longitude)+".wav"
-      var mld = "mld60_"+Math.round(latitude)+".wav"
-    } else if (daytime === "morning") {
-      var rtm = "rtm120_"+Math.round(longitude)+".wav"
-      var mld = "mld60_"+Math.round(latitude)+".wav"
-    } else if (daytime === "afternoon") {
-      var rtm = "rtm120_"+Math.round(longitude)+".wav"
-      var mld = "mld120_"+Math.round(latitude)+".wav"
-    } else if (daytime === "evening") {
-      var rtm = "rtm120_"+Math.round(longitude)+".wav"
-      var mld = "mld120_"+Math.round(latitude)+".wav"
-    } else {
-      console.log("Error creating filename!");
-    }
+    
 
     // render coordinates as text into "output":
     output.innerHTML = '<p>Latitude is ' + latitude + ' <br>Longitude is ' + longitude + '</p>';
