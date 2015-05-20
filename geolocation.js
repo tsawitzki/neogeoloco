@@ -6,8 +6,6 @@ if ("geolocation" in navigator) {
   console.log("WARNING: Browser geolocation API is NOT available");
 }
 
-
-
 // call this function to start:
 function geoFindMe() {
   
@@ -78,7 +76,7 @@ function geoFindMe() {
       },
       onload: function () {
         console.log("OK: Rhythm stem loaded");
-        rtm.play();
+        
       }
     });
     var mld = new Howl({
@@ -92,12 +90,13 @@ function geoFindMe() {
       onload: function () {
         console.log("OK: Melody stem loaded");
         // play dem mofos, selecta:
-        mld.play();
+        
       }
     });
     
+    rtm.play();
+    mld.play();
     
-
     // render coordinates as text into "output":
     output.innerHTML = '<p>Latitude is ' + latitude + ' <br>Longitude is ' + longitude + '</p>';
     
@@ -116,4 +115,4 @@ function geoFindMe() {
 
 }
 
-geoFindMe();
+// geoFindMe();
