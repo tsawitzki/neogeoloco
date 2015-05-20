@@ -70,32 +70,33 @@ function geoFindMe() {
       urls: ["sound/"+stem_rtm],
       autoplay: false,
       loop: true,
-      volume: 1.0,
+      volume: 0.0,
       onend: function() {
         // 
       },
       onload: function () {
         console.log("OK: Rhythm stem loaded");
-        
       }
     });
     var mld = new Howl({
       urls: ["sound/"+stem_mld],
       autoplay: false,
       loop: true,
-      volume: 1.0,
+      volume: 0.0,
       onend: function() {
         // 
       },
       onload: function () {
         console.log("OK: Melody stem loaded");
-        // play dem mofos, selecta:
-        
       }
     });
     
-    rtm.play();
-    mld.play();
+    
+    // play it:
+    rtm.play().fadeIn(1, 5000, function(){
+        mld.play().fadeIn(1, 15000);
+    });
+
     
     // render coordinates as text into "output":
     output.innerHTML = '<p>Latitude is ' + latitude + ' <br>Longitude is ' + longitude + '</p>';
