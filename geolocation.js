@@ -6,12 +6,19 @@ if ("geolocation" in navigator) {
   console.log("WARNING: Browser geolocation API is NOT available");
 }
 
+
+
+
+
+
 // call this function to start:
 function geoFindMe() {
   
-  // get element with ID "out" and save it as variable "output" to have an element to render text-output into frontend
+  // define output areas in DOM
+  var logo = document.getElementsByTagName("h1")[0];
+  var headline = document.getElementsByTagName("h2")[0];
   var output = document.getElementById("out");
-
+  
   if (!navigator.geolocation){
     output.innerHTML = "<p>Sorry, Geolocation API is not supported by this browser.</p>";
     return;
@@ -62,7 +69,7 @@ function geoFindMe() {
       stem_mld = "mld120_"+Math.round(latitude)+".wav";
     } else {
       console.log("WARNING: Error defining daytime and creating filename!");
-    };
+    }
     console.log("=> It’s " + daytime + ", so loading these according to Lon/Lat now: " + stem_rtm + " + " + stem_mld);
 
     // creat new Howl.js objects for generated filenames and play them:
@@ -93,27 +100,26 @@ function geoFindMe() {
     
     
     // play it:
-    rtm.play().fadeIn(1, 5000, function(){
-        mld.play().fadeIn(1, 15000);
+    rtm.play().fadeIn(0, 5000, function(){
+        // play 2nd stem a little delayed:
+        mld.play().fadeIn(0, 15000);
     });
 
     
     // render coordinates as text into "output":
     output.innerHTML = '<p>Latitude is ' + latitude + ' <br>Longitude is ' + longitude + '</p>';
     
-  };
+  }
 
   // mandatory error function
   function error() {
     output.innerHTML = "Unable to retrieve your location";
-  };
+  }
   
   // while loading phase, animation here later:
-  output.innerHTML = "<p>Locating…</p>";
+  output.innerHTML = "<p>Getting your location ...</p>";
 
   // the actual API call:
   navigator.geolocation.getCurrentPosition(success, error);
 
 }
-
-// geoFindMe();
